@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LINK - MR DESIGNER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* reset e base */
+        body {
+            margin: 0;
+            font-family: 'Noka SemiBold', sans-serif;
+            background-color: #0a1a2f;
+            color: #89c9ff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            position: relative;
+        }
+
+        body.light {
+            background-color: #b3b3b3;
+            color: #0a2a5a;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            transition: color 0.4s ease;
+        }
+
+        #background-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+            transition: filter 0.4s ease;
+        }
+
+        body.light #background-img {
+            filter: brightness(1.1);
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeInDown 1s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+
+        p {
+            margin: 15px 0 20px 0;
+            font-size: 18px;
+            font-family: 'Noka Light', sans-serif;
+            text-align: center;
+            animation: fadeInUp 1s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+
+        #profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            animation: fadeInDown 1s ease forwards;
+            transition: filter 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .barra-animada {
+            width: 500px;
+            max-width: 90vw;
+            height: 2px;
+            margin: 10px auto 40px auto;
+            background: linear-gradient(to right,
+                    rgba(71, 172, 255, 0.1) 0%,
+                    rgba(71, 172, 255, 0.6) 40%,
+                    rgba(71, 172, 255, 1) 50%,
+                    rgba(71, 172, 255, 0.6) 60%,
+                    rgba(71, 172, 255, 0.1) 100%);
+            background-size: 200% 100%;
+            background-repeat: no-repeat;
+            animation: barraFade 4s linear infinite;
+            border-radius: 2px;
+            transition: background 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.light .barra-animada {
+            background: linear-gradient(to right,
+                    rgba(0, 94, 255, 0.1) 0%,
+                    rgba(0, 94, 255, 0.6) 40%,
+                    rgba(0, 94, 255, 1) 50%,
+                    rgba(0, 94, 255, 0.6) 60%,
+                    rgba(0, 94, 255, 0.1) 100%);
+        }
+
+        @keyframes barraFade {
+            0% {
+                background-position: 200% 0;
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                background-position: 0% 0;
+                opacity: 0;
+            }
+        }
+
+        .button {
+            width: 90%;
+            max-width: 400px;
+            background-color: #0d2642;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 2s ease forwards;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease,
+                transform 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.light .button {
+            background-color: #c3dbff;
+            color: #0a2a5a;
+        }
+
+        .button a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: inherit;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .button:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .button:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .button:nth-child(4) {
+            animation-delay: 0.9s;
+        }
+
+        /* efeito glow por cima da logo */
+        .platform-img {
+            position: relative;
+            width: 135px;
+            margin-bottom: 3px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            z-index: 1;
+            border-radius: 6px;
+
+            /* --- ADICIONEI AQUI A ANIMAÇÃO QUE TINHA --- */
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        /* Delay para animar sequencialmente as logos */
+        .platform-img:nth-of-type(1) {
+            animation-delay: 1.5s;
+        }
+
+        .platform-img:nth-of-type(2) {
+            animation-delay: 1.8s;
+        }
+
+        .platform-img:nth-of-type(3) {
+            animation-delay: 2.1s;
+        }
+
+        .platform-img::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            border-radius: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.5);
+            z-index: 2;
+        }
+
+        .platform-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .platform-img:hover::after {
+            opacity: 1;
+        }
+
+        #profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+            filter: none;
+            cursor: default;
+        }
+
+        body.light #profile-photo:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        footer {
+            background-color: #0047AB;
+            color: white;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            opacity: 0.9;
+            animation: fadeIn 2s ease forwards;
+            font-size: 1em;
+            transition: background-color 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.light footer {
+            background-color: #003f91;
+            color: #e0e7ff;
+        }
+
+        /* --- BARRA DE ROLAGEM PERSONALIZADA (RESTAURADA SEM APAGAR NADA) --- */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a1a2f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg,
+                    #b18aff 0%,
+                    #1a1e4a 25%,
+                    #b18aff 50%,
+                    #1a1e4a 75%,
+                    #b18aff 100%);
+            border-radius: 6px;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #b18aff #0a1a2f;
+        }
+
+        body.light ::-webkit-scrollbar-track {
+            background: #e3f0ff;
+        }
+
+        body.light ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg,
+                    #005eff 0%,
+                    #003a70 25%,
+                    #005eff 50%,
+                    #003a70 75%,
+                    #005eff 100%);
+        }
+
+        body.light * {
+            scrollbar-color: #005eff #e3f0ff;
+        }
+
+        #toggle-theme {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: #0047AB;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 10px #479aff;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 9999;
+        }
+
+        #toggle-theme:hover {
+            background: #005eff;
+            box-shadow: 0 0 15px #005eff;
+        }
+
+        body.light #toggle-theme {
+            background: #005eff;
+            color: #e0e7ff;
+            box-shadow: 0 0 15px #005eff;
+        }
+
+        body.light #toggle-theme:hover {
+            background: #0047AB;
+            box-shadow: 0 0 15px #479aff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+
+    <button id="toggle-theme" aria-label="Alternar modo claro/escuro">Modo Claro</button>
+
+    <main>
+        <div style="text-align: center; padding: 20px;">
+            <img id="profile-photo" src="imagens/logo-instagram.JPG.jpg" alt="Foto de perfil" />
+
+            <h1>Olá, Seja Bem-Vindo(a)</h1>
+
+            <p>
+                Aqui você começa a elevar o nível do seu perfil;<br />
+                para se manter em forma dentro e fora das 4 linhas!
+            </p>
+
+            <div class="barra-animada"></div>
+        </div>
+
+        <!-- WHATSAPP -->
+        <a href="https://wa.me/5581989839792" target="_blank" rel="noopener">
+            <img src="imagens/whatsapp.png" alt="WhatsApp" class="platform-img" />
+        </a>
+        <div class="button">
+            <a href="https://wa.me/5581989839792" target="_blank" rel="noopener">Clique aqui para entrar em contato
+                comigo!</a>
+        </div>
+
+        <!-- BEHANCE -->
+        <a href="https://behance.net/mrdzn" target="_blank" rel="noopener">
+            <img src="imagens/Behance.png" alt="Behance" class="platform-img" />
+        </a>
+        <div class="button">
+            <a href="https://behance.net/mrdzn" target="_blank" rel="noopener">Clique aqui para ver meu portfólio!</a>
+        </div>
+
+        <!-- INSTAGRAM -->
+        <a href="https://instagram.com/mr.sportdesign" target="_blank" rel="noopener">
+            <img src="imagens/insta.png" alt="Instagram" class="platform-img" />
+        </a>
+        <div class="button">
+            <a href="https://instagram.com/mr.sportdesign" target="_blank" rel="noopener">Clique aqui para veja meu
+                perfil!</a>
+        </div>
+    </main>
+
+    <footer>
+        <h4 style="font-family: 'Noka Light';">© 2025 Marcos Renan | Todos os direitos reservados!</h4>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 60,
+                    density: {
+                        enable: true,
+                        value_area: 700,
+                    },
+                },
+                color: {
+                    value: '#479aff',
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000',
+                    },
+                },
+                opacity: {
+                    value: 0.2,
+                    random: false,
+                    anim: {
+                        enable: false,
+                    },
+                },
+                size: {
+                    value: 2,
+                    random: true,
+                    anim: {
+                        enable: false,
+                    },
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 120,
+                    color: '#479aff',
+                    opacity: 0.15,
+                    width: 1,
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'bounce',
+                    bounce: true,
+                    attract: {
+                        enable: false,
+                    },
+                },
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab',
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push',
+                    },
+                    resize: true,
+                },
+                modes: {
+                    grab: {
+                        distance: 130,
+                        line_linked: {
+                            opacity: 0.3,
+                        },
+                    },
+                    push: {
+                        particles_nb: 4,
+                    },
+                },
+            },
+            retina_detect: true,
+        });
+
+        const toggleBtn = document.getElementById('toggle-theme');
+        const body = document.body;
+
+        function updateButtonText() {
+            toggleBtn.textContent = body.classList.contains('light')
+                ? 'Modo Escuro'
+                : 'Modo Claro';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('light');
+            updateButtonText();
+        });
+
+        updateButtonText();
+    </script>
+</body>
+
+</html>
